@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AFHTTPRequestOperationManager.h"
 
 @interface ViewController : UIViewController
+
+@property (nonatomic, retain)UIImage *srcImage;
+@property (nonatomic, retain)IBOutlet UIImageView *ImageView;
 
 @end
