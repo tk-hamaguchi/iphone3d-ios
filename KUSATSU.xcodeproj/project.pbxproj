@@ -16,6 +16,7 @@
 		270E6C5318A5E5C00071F62C /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 270E6C4818A5E5C00071F62C /* AFURLRequestSerialization.m */; };
 		270E6C5418A5E5C00071F62C /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 270E6C4A18A5E5C00071F62C /* AFURLResponseSerialization.m */; };
 		270E6C5518A5E5C00071F62C /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 270E6C4C18A5E5C00071F62C /* AFURLSessionManager.m */; };
+		2748A30218A64FE400E1B36B /* cat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2748A30118A64FE400E1B36B /* cat.jpg */; };
 		27ACD53D18A4FD86005AF9AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD53C18A4FD86005AF9AE /* Foundation.framework */; };
 		27ACD53F18A4FD86005AF9AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD53E18A4FD86005AF9AE /* CoreGraphics.framework */; };
 		27ACD54118A4FD86005AF9AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD54018A4FD86005AF9AE /* UIKit.framework */; };
@@ -62,6 +63,7 @@
 		270E6C4A18A5E5C00071F62C /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		270E6C4B18A5E5C00071F62C /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		270E6C4C18A5E5C00071F62C /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		2748A30118A64FE400E1B36B /* cat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpg; sourceTree = "<group>"; };
 		27ACD53918A4FD86005AF9AE /* KUSATSU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KUSATSU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27ACD53C18A4FD86005AF9AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		27ACD53E18A4FD86005AF9AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -141,6 +143,14 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		2748A30018A64FE400E1B36B /* images */ = {
+			isa = PBXGroup;
+			children = (
+				2748A30118A64FE400E1B36B /* cat.jpg */,
+			);
+			path = images;
+			sourceTree = SOURCE_ROOT;
+		};
 		27ACD53018A4FD86005AF9AE = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +191,7 @@
 				27ACD55118A4FD86005AF9AE /* ViewController.h */,
 				27ACD55218A4FD86005AF9AE /* ViewController.m */,
 				27ACD55418A4FD87005AF9AE /* Images.xcassets */,
+				2748A30018A64FE400E1B36B /* images */,
 				27ACD54318A4FD86005AF9AE /* Supporting Files */,
 			);
 			path = KUSATSU;
@@ -293,6 +304,7 @@
 			files = (
 				27ACD55518A4FD87005AF9AE /* Images.xcassets in Resources */,
 				27ACD54718A4FD86005AF9AE /* InfoPlist.strings in Resources */,
+				2748A30218A64FE400E1B36B /* cat.jpg in Resources */,
 				27ACD55018A4FD86005AF9AE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

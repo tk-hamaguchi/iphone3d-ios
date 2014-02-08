@@ -17,6 +17,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.imageView =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cat.jpg"]];
+    CGRect rect = CGRectMake(5,55, 560, 210);
+    self.imageView.frame = rect;
+    [self.view addSubview:self.imageView];
+    
+    UIImage *src = [UIImage imageNamed:@"cat.jpg"];
+    [self imageRender:src];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -76,35 +84,50 @@
  * VGA 640*480 * 2枚 = 1280 * 480 -> (* 0.875) 560 * 210
 */
 
--(void)image{
-    //オリジナル画像
-    UIImage *src = self.srcImage;
+-(void)imageRender:(UIImage*)src{
     
     CGFloat srcWidth = CGImageGetWidth(src.CGImage);
     CGFloat srcHeight = CGImageGetHeight(src.CGImage);
+    NSLog(@"%f:%f",srcWidth,srcHeight);
     
-    //画像合成
-    UIGraphicsBeginImageContext(CGSizeMake(srcWidth * 2, srcHeight * 2));
+    //画像サイズ
+    UIGraphicsBeginImageContext(CGSizeMake(560, 210));
+    
+    // トリミング origin.x  origin.y w h
+    float move = 50.0;
+    CGRect leftRect = CGRectMake(move, 0.0, srcWidth, srcHeight);
+    CGRect rightRect = CGRectMake(-move, 0.0, srcWidth, srcHeight);
+    CGImageRef cgImageLeft = CGImageCreateWithImageInRect(src.CGImage, leftRect);
+    CGImageRef cgImageRight = CGImageCreateWithImageInRect(src.CGImage, rightRect);
+
+    // resize
+    UIImage *thumbnailImageLeft = [self resize:[UIImage imageWithCGImage:cgImageLeft]
+                                    rect:CGRectMake(0, 0, 640, 480)];
+    UIImage *thumbnailImageRight = [self resize:[UIImage imageWithCGImage:cgImageRight]
+                                    rect:CGRectMake(0, 0, 640, 480)];
+
+    //合成
     CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(ctx, 0, 210);
+    CGContextScaleCTM(ctx, 1, -1); // 上下反転対策
+    CGContextDrawImage(ctx, CGRectMake(0, 0, 280, 210), thumbnailImageLeft.CGImage);
+    CGContextDrawImage(ctx, CGRectMake(280, 0, 280, 210), thumbnailImageRight.CGImage);
+    CGImageRef imgRef = CGBitmapContextCreateImage (ctx);
+    UIImage *output = [UIImage imageWithCGImage:imgRef];
     
-    [src drawInRect:CGRectMake(0, 0, srcWidth, srcHeight)];
-    [src drawInRect:CGRectMake(srcWidth, 0, srcWidth, srcHeight)];
-    [src drawInRect:CGRectMake(0, srcHeight, srcWidth, srcHeight)];
-    [src drawInRect:CGRectMake(srcWidth, srcHeight, srcWidth, srcHeight)];
+    self.imageView.image = output;
     
-    CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
-    CGContextSelectFont(ctx, "Helvetica", 15.0, kCGEncodingMacRoman);
-    CGContextSetTextDrawingMode(ctx, kCGTextFill);
-    CGContextShowTextAtPoint(ctx, 0, 0, "0,0", 3);
-    CGContextShowTextAtPoint(ctx, 50, 0, "50,0", 4);
-    CGContextShowTextAtPoint(ctx, 0, 50, "0,50", 4);
-    CGContextShowTextAtPoint(ctx, 50, 50, "50,50", 5);
-    
-    // 合成
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+}
+
+-(UIImage *)resize:(UIImage *)image rect:(CGRect)rect
+{
+    UIGraphicsBeginImageContext(rect.size);
+    [image drawInRect:rect];
+    UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
     UIGraphicsEndImageContext();
-    
-    CGContextTranslateCTM(ctx, 0, srcHeight * 1.2); //文字の高さ分ずらした
+    return resizedImage;
 }
 
 @end

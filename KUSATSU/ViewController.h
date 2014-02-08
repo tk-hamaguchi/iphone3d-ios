@@ -12,6 +12,6 @@
 @interface ViewController : UIViewController
 
 @property (nonatomic, retain)UIImage *srcImage;
-@property (nonatomic, retain)IBOutlet UIImageView *ImageView;
+@property (nonatomic, retain)UIImageView *imageView;
 
 @end
