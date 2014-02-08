@@ -96,7 +96,7 @@
     // トリミング origin.x  origin.y w h
     float move = 50.0;
     CGRect leftRect = CGRectMake(move, 0.0, srcWidth, srcHeight);
-    CGRect rightRect = CGRectMake(-move, 0.0, srcWidth, srcHeight);
+    CGRect rightRect = CGRectMake(0, 0.0, srcWidth-move, srcHeight);
     CGImageRef cgImageLeft = CGImageCreateWithImageInRect(src.CGImage, leftRect);
     CGImageRef cgImageRight = CGImageCreateWithImageInRect(src.CGImage, rightRect);
 
