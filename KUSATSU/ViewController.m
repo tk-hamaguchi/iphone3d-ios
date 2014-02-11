@@ -17,14 +17,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self getImageFromCamera];
+
+#ifdef DEBUG_MODE
     self.imageView =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cat.jpg"]];
     CGRect rect = CGRectMake(5,55, 560, 210);
     self.imageView.frame = rect;
     [self.view addSubview:self.imageView];
-    
     UIImage *src = [UIImage imageNamed:@"cat.jpg"];
     [self imageRender:src];
+#else
+    self.imageView =[[UIImageView alloc]initWithImage:NULL];
+    CGRect rect = CGRectMake(5,55, 560, 210);
+    self.imageView.frame = rect;
+    [self.view addSubview:self.imageView];
+#endif
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -42,39 +49,43 @@
 
 #pragma mark HTTP
 
+-(IBAction)get:(id)sender{
+    [self getImageFromCamera];
+}
+
 -(void)getImageFromCamera{
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    [manager GET:@"http://localhost/test.json"
-      parameters:nil
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFImageResponseSerializer serializer];
+    
+    NSDictionary *params = @{@"action": @"snapshot"};
+    
+    [manager GET:@"http://192.168.2.1" parameters:params
+         success:^(NSURLSessionDataTask *task, UIImage *image) {
              // 通信に成功した場合の処理
-             NSLog(@"responseObject: %@", responseObject);
-         }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             // エラーの場合はエラーの内容をコンソールに出力する
+             [self imageRender:image];
+             
+         } failure:^(NSURLSessionDataTask *task, NSError *error) {
              NSLog(@"Error: %@", error);
+             [self imageRender:NULL];
          }];
 }
 
--(void)postImageData{
-    // File Upload with Progress Callback
-//    NSData *imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"avatar.jpg"], 0.5);
-//    NSMutableURLRequest *request = [[AFHTTPClient sharedClient]
-//                                    multipartFormRequestWithMethod:@"POST" path:@"/upload"
-//                                    parameters:nil constructingBodyWithBlock: ^(id formData) {
-//                                        [formData appendPartWithFileData:data mimeType:@"image/jpeg" name:@"avatar"];
-//                                    }];
-//    
-//    AFHTTPRequestOperation *operation = [[[AFHTTPRequestOperation alloc]
-//                                          initWithRequest:request] autorelease];
-//    [operation setUploadProgressBlock:
-//     ^(NSUInteger totalBytesWritten, NSUInteger totalBytesExpectedToWrite) {
-//         NSLog(@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite);
-//     }];
-//    
-//    NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
-//    [queue addOperation:operation];
+-(void)postImageData:(UIImage*)input{
+    
+    NSData *imageData = UIImageJPEGRepresentation(input, 0.5);
+  
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager POST:@"http://example.com/" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        // send ImageData
+        [formData appendPartWithFormData:imageData name:@"image"];
+         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
 }
 
 #pragma mark Image Processing
@@ -86,9 +97,11 @@
 
 -(void)imageRender:(UIImage*)src{
     
+    if(src == NULL)[self getImageFromCamera];
+    
     CGFloat srcWidth = CGImageGetWidth(src.CGImage);
     CGFloat srcHeight = CGImageGetHeight(src.CGImage);
-    NSLog(@"%f:%f",srcWidth,srcHeight);
+    //NSLog(@"%f:%f",srcWidth,srcHeight);
     
     //画像サイズ
     UIGraphicsBeginImageContext(CGSizeMake(560, 210));
@@ -116,6 +129,9 @@
     UIImage *output = [UIImage imageWithCGImage:imgRef];
     
     self.imageView.image = output;
+    
+    usleep(100000); // 0.1sec
+    [self getImageFromCamera];
     
 }
 

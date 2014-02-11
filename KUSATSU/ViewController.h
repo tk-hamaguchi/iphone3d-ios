@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AFHTTPSessionManager.h"
 #import "AFHTTPRequestOperationManager.h"
 
 @interface ViewController : UIViewController
