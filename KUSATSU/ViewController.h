@@ -14,5 +14,6 @@
 
 @property (nonatomic, retain)UIImage *srcImage;
 @property (nonatomic, retain)UIImageView *imageView;
-
+@property (nonatomic, retain)NSString *getURL;
+@property int captureCount;
 @end

@@ -16,10 +16,11 @@
 
 - (void)viewDidLoad
 {
+    self.captureCount = 0;
     [super viewDidLoad];
-    [self getImageFromCamera];
 
 #ifdef DEBUG_MODE
+    self.getURL = @"http://192.168.2.1";
     self.imageView =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cat.jpg"]];
     CGRect rect = CGRectMake(5,55, 560, 210);
     self.imageView.frame = rect;
@@ -27,12 +28,15 @@
     UIImage *src = [UIImage imageNamed:@"cat.jpg"];
     [self imageRender:src];
 #else
+    self.getURL = @"http://192.168.0.150";
     self.imageView =[[UIImageView alloc]initWithImage:NULL];
     CGRect rect = CGRectMake(5,55, 560, 210);
     self.imageView.frame = rect;
     [self.view addSubview:self.imageView];
 #endif
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    [self getImageFromCamera];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,7 +64,7 @@
     
     NSDictionary *params = @{@"action": @"snapshot"};
     
-    [manager GET:@"http://192.168.2.1" parameters:params
+    [manager GET:self.getURL parameters:params
          success:^(NSURLSessionDataTask *task, UIImage *image) {
              // 通信に成功した場合の処理
              [self imageRender:image];
@@ -73,19 +77,22 @@
 
 -(void)postImageData:(UIImage*)input{
     
-    NSData *imageData = UIImageJPEGRepresentation(input, 0.5);
+    NSData *imageData = UIImageJPEGRepresentation(input, 0.01);
+    
+    if (imageData==nil) return;
+    
+    NSDictionary *params = @{@"id": @"dummy",@"pass": @"dummy"};
   
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    [manager POST:@"http://example.com/" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:@"https://iphone3d.now.tl/api/movies" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // send ImageData
         [formData appendPartWithFormData:imageData name:@"image"];
          } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        NSLog(@"Error: %@  (errorCode:%d)", error, error.code);
     }];
-    
 }
 
 #pragma mark Image Processing
@@ -132,6 +139,10 @@
     
     usleep(100000); // 0.1sec
     [self getImageFromCamera];
+    
+    if(self.captureCount % 10 == 0)[self postImageData:output];
+
+    self.captureCount++;
     
 }
 
