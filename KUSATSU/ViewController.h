@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ModalViewController.h"
 #import "AFHTTPSessionManager.h"
 #import "AFHTTPRequestOperationManager.h"
 
@@ -15,5 +16,6 @@
 @property (nonatomic, retain)UIImage *srcImage;
 @property (nonatomic, retain)UIImageView *imageView;
 @property (nonatomic, retain)NSString *getURL;
+@property (nonatomic, retain)NSDictionary *userInfo;
 @property int captureCount;
 @end

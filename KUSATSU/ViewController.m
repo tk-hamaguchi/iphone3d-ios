@@ -14,6 +14,26 @@
 
 @implementation ViewController
 
+- (void)viewDidAppear:(BOOL)animated{
+    NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(response:)
+                   name:@"inputDone" object:nil];
+    
+    if (self.userInfo == NULL) {
+        ModalViewController *modalViewController = [[ModalViewController alloc]
+                                                    initWithNibName:@"ModalViewController"
+                                                    bundle:nil];
+        modalViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        modalViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:modalViewController animated:YES completion:nil];
+    }
+}
+
+-(void)response:(NSDictionary*)dic{
+    NSLog(@"%@",dic);
+    self.userInfo = dic;
+}
+
 - (void)viewDidLoad
 {
     self.captureCount = 0;
@@ -81,13 +101,15 @@
     
     if (imageData==nil) return;
     
-    NSDictionary *params = @{@"id": @"dummy",@"pass": @"dummy"};
+    NSDictionary *params = @{@"docomo_id": @"docomo_id",@"docomo_pass": @"docomo_pass",@"movie[images_attributes][][pic]":imageData,};
   
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    [manager POST:@"https://iphone3d.now.tl/api/movies" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:@"http://iphone3d.now.tl/api/movies" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // send ImageData
-        [formData appendPartWithFormData:imageData name:@"image"];
+        //[formData appendPartWithFormData:imageData name:@"image"];
+        [formData appendPartWithFileData:imageData name:@"movie[images_attributes][][pic]" fileName:@"image.jpg" mimeType:@"image/jpeg"];
+
          } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
