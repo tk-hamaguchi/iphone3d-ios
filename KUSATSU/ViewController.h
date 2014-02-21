@@ -11,7 +11,10 @@
 #import "AFHTTPSessionManager.h"
 #import "AFHTTPRequestOperationManager.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController{
+    NSData *imageData[11];
+    int count;
+}
 
 @property (nonatomic, retain)UIImage *srcImage;
 @property (nonatomic, retain)UIImageView *imageView;

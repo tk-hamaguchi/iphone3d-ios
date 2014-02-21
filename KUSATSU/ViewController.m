@@ -56,7 +56,10 @@
 #endif
 	// Do any additional setup after loading the view, typically from a nib.
     
+    if (self.userInfo != NULL) {
+
     [self getImageFromCamera];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,7 +89,6 @@
     
     [manager GET:self.getURL parameters:params
          success:^(NSURLSessionDataTask *task, UIImage *image) {
-             // 通信に成功した場合の処理
              [self imageRender:image];
              
          } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -95,21 +97,25 @@
          }];
 }
 
--(void)postImageData:(UIImage*)input{
+-(void)sendImageBinary:(UIImage*)input{
     
-    NSData *imageData = UIImageJPEGRepresentation(input, 0.01);
+    //if (imageData==nil) return;
     
-    if (imageData==nil) return;
-    
-    NSDictionary *params = @{@"docomo_id": @"docomo_id",@"docomo_pass": @"docomo_pass",@"movie[images_attributes][][pic]":imageData,};
+    NSDictionary *params = @{@"docomo_id": @"docomo_id",@"docomo_pass": @"docomo_pass"};
   
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager POST:@"http://iphone3d.now.tl/api/movies" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // send ImageData
         //[formData appendPartWithFormData:imageData name:@"image"];
-        [formData appendPartWithFileData:imageData name:@"movie[images_attributes][][pic]" fileName:@"image.jpg" mimeType:@"image/jpeg"];
-
+        
+        for (int i =0; i < 10; i++) {
+            NSString *str = [NSString stringWithFormat:@"image%d.jpg",i];
+            
+            [formData appendPartWithFileData:imageData[i] name:@"movie[images_attributes][][pic]" fileName:str mimeType:@"image/jpeg"];
+        }
+        
+        
          } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -136,9 +142,9 @@
     UIGraphicsBeginImageContext(CGSizeMake(560, 210));
     
     // トリミング origin.x  origin.y w h
-    float move = 50.0;
-    CGRect leftRect = CGRectMake(move, 0.0, srcWidth, srcHeight);
-    CGRect rightRect = CGRectMake(0, 0.0, srcWidth-move, srcHeight);
+    float shift = 50.0;
+    CGRect leftRect = CGRectMake(shift, 0.0, srcWidth, srcHeight);
+    CGRect rightRect = CGRectMake(0, 0.0, srcWidth - shift, srcHeight);
     CGImageRef cgImageLeft = CGImageCreateWithImageInRect(src.CGImage, leftRect);
     CGImageRef cgImageRight = CGImageCreateWithImageInRect(src.CGImage, rightRect);
 
@@ -162,8 +168,13 @@
     usleep(100000); // 0.1sec
     [self getImageFromCamera];
     
-    if(self.captureCount % 10 == 0)[self postImageData:output];
+    imageData[count] = UIImageJPEGRepresentation(output, 0.01);
 
+    if (count == 10) {
+        count=0;
+        [self sendImageBinary:nil];
+    }
+    count++;
     self.captureCount++;
     
 }
