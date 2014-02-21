@@ -11,9 +11,10 @@
 #import "AFHTTPSessionManager.h"
 #import "AFHTTPRequestOperationManager.h"
 
+#define FRAMERATE 10
+
 @interface ViewController : UIViewController{
-    NSData *imageData[11];
-    int count;
+    NSData *imageData[FRAMERATE];
 }
 
 @property (nonatomic, retain)UIImage *srcImage;

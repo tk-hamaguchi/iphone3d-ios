@@ -39,6 +39,8 @@
     NSString *_id = self.inputID.text;
     NSString *_pass = self.inputPASS.text;
     
+    NSLog(@"id:%@ pass:%@",_id,_pass);
+    
     if ([_id length] == 0 || [_pass length] == 0) {
         return;
     }

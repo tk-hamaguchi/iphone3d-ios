@@ -30,8 +30,8 @@
 }
 
 -(void)response:(NSDictionary*)dic{
-    NSLog(@"%@",dic);
     self.userInfo = dic;
+    [self getImageFromCamera];
 }
 
 - (void)viewDidLoad
@@ -55,11 +55,6 @@
     [self.view addSubview:self.imageView];
 #endif
 	// Do any additional setup after loading the view, typically from a nib.
-    
-    if (self.userInfo != NULL) {
-
-    [self getImageFromCamera];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,11 +69,11 @@
     return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
-#pragma mark HTTP
-
 -(IBAction)get:(id)sender{
     [self getImageFromCamera];
 }
+
+#pragma mark HTTP
 
 -(void)getImageFromCamera{
     
@@ -97,24 +92,22 @@
          }];
 }
 
--(void)sendImageBinary:(UIImage*)input{
+-(void)sendImageBinary:(int)frameRate{
     
-    //if (imageData==nil) return;
-    
-    NSDictionary *params = @{@"docomo_id": @"docomo_id",@"docomo_pass": @"docomo_pass"};
+    NSDictionary *params = @{@"docomo_id": [self.userInfo objectForKey:@"id"]
+                             ,@"docomo_pass": [self.userInfo objectForKey:@"pass"]};
   
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager POST:@"http://iphone3d.now.tl/api/movies" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // send ImageData
-        //[formData appendPartWithFormData:imageData name:@"image"];
-        
-        for (int i =0; i < 10; i++) {
-            NSString *str = [NSString stringWithFormat:@"image%d.jpg",i];
+        for (int i =0; i < frameRate; i++) {
+            if (imageData[i] == NULL)return;
+            NSString *imgName = [NSString stringWithFormat:@"image_%d.jpg",i];
             
-            [formData appendPartWithFileData:imageData[i] name:@"movie[images_attributes][][pic]" fileName:str mimeType:@"image/jpeg"];
+            //[formData appendPartWithFormData:imageData name:@"image"];
+            [formData appendPartWithFileData:imageData[i] name:@"movie[images_attributes][][pic]" fileName:imgName mimeType:@"image/jpeg"];
         }
-        
         
          } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
@@ -127,7 +120,7 @@
 
 /**
  *
- * VGA 640*480 * 2枚 = 1280 * 480 -> (* 0.875) 560 * 210
+ * VGA 640*480 * 2 = 1280 * 480 -> (* 0.875) 560 * 210
 */
 
 -(void)imageRender:(UIImage*)src{
@@ -164,20 +157,14 @@
     UIImage *output = [UIImage imageWithCGImage:imgRef];
     
     self.imageView.image = output;
-    
-    usleep(100000); // 0.1sec
-    [self getImageFromCamera];
-    
-    imageData[count] = UIImageJPEGRepresentation(output, 0.01);
+    imageData[self.captureCount] = UIImageJPEGRepresentation(output, 0.01);
 
-    if (count == 10) {
-        count=0;
-        [self sendImageBinary:nil];
-    }
-    count++;
-    self.captureCount++;
+    usleep(100000); // 0.1sec
     
+    [self getImageFromCamera];
+    [self checkCaptureCount];
 }
+
 
 -(UIImage *)resize:(UIImage *)image rect:(CGRect)rect
 {
@@ -188,6 +175,15 @@
     CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
     UIGraphicsEndImageContext();
     return resizedImage;
+}
+
+-(void)checkCaptureCount{
+    self.captureCount++;
+    
+    if (self.captureCount == FRAMERATE) {
+        [self sendImageBinary:self.captureCount];
+        self.captureCount=0;
+    }
 }
 
 @end
