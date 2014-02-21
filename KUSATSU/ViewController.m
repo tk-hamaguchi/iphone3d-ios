@@ -29,8 +29,8 @@
     }
 }
 
--(void)response:(NSDictionary*)dic{
-    self.userInfo = dic;
+-(void)response:(NSNotification*)nofify{
+    self.userInfo = nofify.userInfo;
     [self getImageFromCamera];
 }
 
@@ -69,7 +69,7 @@
     return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
--(IBAction)get:(id)sender{
+-(IBAction)getCapture:(id)sender{
     [self getImageFromCamera];
 }
 
@@ -93,6 +93,8 @@
 }
 
 -(void)sendImageBinary:(int)frameRate{
+
+    //NSLog(@"self.userInfo -> %@ ",self.userInfo.allKeys);
     
     NSDictionary *params = @{@"docomo_id": [self.userInfo objectForKey:@"id"]
                              ,@"docomo_pass": [self.userInfo objectForKey:@"pass"]};

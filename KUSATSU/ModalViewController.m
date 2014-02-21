@@ -45,9 +45,7 @@
         return;
     }
     
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         _id ,@"id",
-                         _pass, @"pass",nil];
+    NSDictionary *dic = @{@"id": _id,@"pass": _pass};
     
     NSNotification *notify = [NSNotification notificationWithName:@"inputDone" object:self userInfo:dic];
     [[NSNotificationCenter defaultCenter] postNotification:notify];
