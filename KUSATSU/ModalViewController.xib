@@ -43,7 +43,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="endButtonPush:" destination="-1" eventType="touchUpInside" id="e7Y-FL-vFu"/>
+                        <action selector="loginButtonPush:" destination="-1" eventType="touchUpInside" id="VqA-VI-iLp"/>
                     </connections>
                 </button>
             </subviews>

@@ -35,13 +35,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)endButtonPush:(id)sender{
+- (IBAction)loginButtonPush:(id)sender{
     NSString *_id = self.inputID.text;
     NSString *_pass = self.inputPASS.text;
     
     NSLog(@"id:%@ pass:%@",_id,_pass);
     
     if ([_id length] == 0 || [_pass length] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Confirm your UserID or Pass"
+                                  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
         return;
     }
     

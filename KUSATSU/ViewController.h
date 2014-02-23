@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ModalViewController.h"
+#import "WebViewController.h"
 #import "AFHTTPSessionManager.h"
 #import "AFHTTPRequestOperationManager.h"
 
@@ -22,4 +23,5 @@
 @property (nonatomic, retain)NSString *getURL;
 @property (nonatomic, retain)NSDictionary *userInfo;
 @property int captureCount;
+@property BOOL isEnableSend;
 @end

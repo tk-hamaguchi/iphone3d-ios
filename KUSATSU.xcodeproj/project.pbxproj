@@ -19,6 +19,9 @@
 		2748A30218A64FE400E1B36B /* cat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2748A30118A64FE400E1B36B /* cat.jpg */; };
 		2788EC8E18B62BD800315700 /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2788EC8C18B62BD800315700 /* ModalViewController.m */; };
 		2788EC8F18B62BD800315700 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2788EC8D18B62BD800315700 /* ModalViewController.xib */; };
+		2788EC9318B9FF2800315700 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2788EC9118B9FF2800315700 /* WebViewController.m */; };
+		2788EC9418B9FF2800315700 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2788EC9218B9FF2800315700 /* WebViewController.xib */; };
+		2788EC9618BA283D00315700 /* Icon@120.png in Resources */ = {isa = PBXBuildFile; fileRef = 2788EC9518BA283D00315700 /* Icon@120.png */; };
 		27ACD53D18A4FD86005AF9AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD53C18A4FD86005AF9AE /* Foundation.framework */; };
 		27ACD53F18A4FD86005AF9AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD53E18A4FD86005AF9AE /* CoreGraphics.framework */; };
 		27ACD54118A4FD86005AF9AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD54018A4FD86005AF9AE /* UIKit.framework */; };
@@ -69,6 +72,10 @@
 		2788EC8B18B62BD800315700 /* ModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalViewController.h; sourceTree = "<group>"; };
 		2788EC8C18B62BD800315700 /* ModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalViewController.m; sourceTree = "<group>"; };
 		2788EC8D18B62BD800315700 /* ModalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
+		2788EC9018B9FF2800315700 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		2788EC9118B9FF2800315700 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		2788EC9218B9FF2800315700 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		2788EC9518BA283D00315700 /* Icon@120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@120.png"; sourceTree = "<group>"; };
 		27ACD53918A4FD86005AF9AE /* KUSATSU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KUSATSU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27ACD53C18A4FD86005AF9AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		27ACD53E18A4FD86005AF9AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -151,6 +158,7 @@
 		2748A30018A64FE400E1B36B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2788EC9518BA283D00315700 /* Icon@120.png */,
 				2748A30118A64FE400E1B36B /* cat.jpg */,
 			);
 			path = images;
@@ -195,6 +203,9 @@
 				27ACD54E18A4FD86005AF9AE /* Main.storyboard */,
 				27ACD55118A4FD86005AF9AE /* ViewController.h */,
 				27ACD55218A4FD86005AF9AE /* ViewController.m */,
+				2788EC9018B9FF2800315700 /* WebViewController.h */,
+				2788EC9118B9FF2800315700 /* WebViewController.m */,
+				2788EC9218B9FF2800315700 /* WebViewController.xib */,
 				2788EC8B18B62BD800315700 /* ModalViewController.h */,
 				2788EC8C18B62BD800315700 /* ModalViewController.m */,
 				2788EC8D18B62BD800315700 /* ModalViewController.xib */,
@@ -313,6 +324,8 @@
 				27ACD55518A4FD87005AF9AE /* Images.xcassets in Resources */,
 				2788EC8F18B62BD800315700 /* ModalViewController.xib in Resources */,
 				27ACD54718A4FD86005AF9AE /* InfoPlist.strings in Resources */,
+				2788EC9618BA283D00315700 /* Icon@120.png in Resources */,
+				2788EC9418B9FF2800315700 /* WebViewController.xib in Resources */,
 				2748A30218A64FE400E1B36B /* cat.jpg in Resources */,
 				27ACD55018A4FD86005AF9AE /* Main.storyboard in Resources */,
 			);
@@ -334,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				270E6C4D18A5E5C00071F62C /* AFHTTPRequestOperation.m in Sources */,
+				2788EC9318B9FF2800315700 /* WebViewController.m in Sources */,
 				27ACD55318A4FD86005AF9AE /* ViewController.m in Sources */,
 				270E6C4E18A5E5C00071F62C /* AFHTTPRequestOperationManager.m in Sources */,
 				270E6C5018A5E5C00071F62C /* AFNetworkReachabilityManager.m in Sources */,
@@ -470,7 +484,6 @@
 		27ACD56C18A4FD87005AF9AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: tatsuya egawa (9UF269UQDK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -484,7 +497,6 @@
 		27ACD56D18A4FD87005AF9AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: tatsuya egawa (9UF269UQDK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

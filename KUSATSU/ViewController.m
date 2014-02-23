@@ -16,27 +16,36 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(response:)
+    [center addObserver:self selector:@selector(responseFromModalView:)
                    name:@"inputDone" object:nil];
+    
+    [center addObserver:self selector:@selector(responseFromWebView:)
+                   name:@"webViewDone" object:nil];
     
     if (self.userInfo == NULL) {
         ModalViewController *modalViewController = [[ModalViewController alloc]
-                                                    initWithNibName:@"ModalViewController"
-                                                    bundle:nil];
+                                                    initWithNibName:@"ModalViewController" bundle:nil];
         modalViewController.modalPresentationStyle = UIModalPresentationFormSheet;
         modalViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:modalViewController animated:YES completion:nil];
     }
 }
 
--(void)response:(NSNotification*)nofify{
+-(void)responseFromModalView:(NSNotification*)nofify{
     self.userInfo = nofify.userInfo;
+    [self getImageFromCamera];
+}
+
+-(void)responseFromWebView:(NSNotification*)nofify{
+    self.isEnableSend = YES;
     [self getImageFromCamera];
 }
 
 - (void)viewDidLoad
 {
     self.captureCount = 0;
+    self.isEnableSend = YES;
+
     [super viewDidLoad];
 
 #ifdef DEBUG_MODE
@@ -71,6 +80,15 @@
 
 -(IBAction)getCapture:(id)sender{
     [self getImageFromCamera];
+}
+
+-(IBAction)appearWebView:(id)sender{
+    self.isEnableSend = NO;
+    WebViewController *modalViewController = [[WebViewController alloc]
+                                                initWithNibName:@"WebViewController" bundle:nil];
+    modalViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    modalViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:modalViewController animated:YES completion:nil];
 }
 
 #pragma mark HTTP
@@ -183,7 +201,7 @@
     self.captureCount++;
     
     if (self.captureCount == FRAMERATE) {
-        [self sendImageBinary:self.captureCount];
+        if(self.isEnableSend)[self sendImageBinary:self.captureCount];
         self.captureCount=0;
     }
 }
