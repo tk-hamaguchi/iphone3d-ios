@@ -57,7 +57,8 @@
     UIImage *src = [UIImage imageNamed:@"cat.jpg"];
     [self imageRender:src];
 #else
-    self.getURL = @"http://192.168.0.150";
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    self.getURL = [NSString stringWithFormat:@"http://%@", [userDefaults stringForKey:@"target_ip_preference"]];
     self.imageView =[[UIImageView alloc]initWithImage:NULL];
     CGRect rect = CGRectMake(5,55, 560, 210);
     self.imageView.frame = rect;

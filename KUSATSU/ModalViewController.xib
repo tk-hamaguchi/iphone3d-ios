@@ -28,8 +28,9 @@
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Docomo Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O6L-KL-uVn">
                     <rect key="frame" x="199" y="119" width="200" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                     <connections>
                         <action selector="closeKeyboard:" destination="-1" eventType="editingDidEndOnExit" id="wOq-eb-4wg"/>
                     </connections>

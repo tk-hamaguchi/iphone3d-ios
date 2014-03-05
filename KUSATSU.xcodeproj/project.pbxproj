@@ -36,6 +36,7 @@
 		27ACD55E18A4FD87005AF9AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACD54018A4FD86005AF9AE /* UIKit.framework */; };
 		27ACD56618A4FD87005AF9AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27ACD56418A4FD87005AF9AE /* InfoPlist.strings */; };
 		27ACD56818A4FD87005AF9AE /* KUSATSUTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 27ACD56718A4FD87005AF9AE /* KUSATSUTests.m */; };
+		C9C0CD0A18C7760000D85865 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C9C0CD0918C7760000D85865 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		27ACD56318A4FD87005AF9AE /* KUSATSUTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KUSATSUTests-Info.plist"; sourceTree = "<group>"; };
 		27ACD56518A4FD87005AF9AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27ACD56718A4FD87005AF9AE /* KUSATSUTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KUSATSUTests.m; sourceTree = "<group>"; };
+		C9C0CD0918C7760000D85865 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 		27ACD53018A4FD86005AF9AE = {
 			isa = PBXGroup;
 			children = (
+				C9C0CD0918C7760000D85865 /* Settings.bundle */,
 				27ACD54218A4FD86005AF9AE /* KUSATSU */,
 				27ACD56118A4FD87005AF9AE /* KUSATSUTests */,
 				27ACD53B18A4FD86005AF9AE /* Frameworks */,
@@ -292,6 +295,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = fisproject;
 				TargetAttributes = {
+					27ACD53818A4FD86005AF9AE = {
+						DevelopmentTeam = J65S6FFRWQ;
+					};
 					27ACD55918A4FD87005AF9AE = {
 						TestTargetID = 27ACD53818A4FD86005AF9AE;
 					};
@@ -321,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9C0CD0A18C7760000D85865 /* Settings.bundle in Resources */,
 				27ACD55518A4FD87005AF9AE /* Images.xcassets in Resources */,
 				2788EC8F18B62BD800315700 /* ModalViewController.xib in Resources */,
 				27ACD54718A4FD86005AF9AE /* InfoPlist.strings in Resources */,
@@ -485,11 +492,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: tatsuya egawa (9UF269UQDK)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KUSATSU/KUSATSU-Prefix.pch";
 				INFOPLIST_FILE = "KUSATSU/KUSATSU-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -498,11 +507,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: tatsuya egawa (9UF269UQDK)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KUSATSU/KUSATSU-Prefix.pch";
 				INFOPLIST_FILE = "KUSATSU/KUSATSU-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

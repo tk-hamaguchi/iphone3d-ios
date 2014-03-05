@@ -26,7 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    self.inputID.text   = [userDefaults stringForKey:@"docomo_id_preference"];
+    self.inputPASS.text = [userDefaults stringForKey:@"docomo_password_preference"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,8 +42,6 @@
     NSString *_id = self.inputID.text;
     NSString *_pass = self.inputPASS.text;
     
-    NSLog(@"id:%@ pass:%@",_id,_pass);
-    
     if ([_id length] == 0 || [_pass length] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Confirm your UserID or Pass"
                                   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -49,6 +50,11 @@
     }
     
     NSDictionary *dic = @{@"id": _id,@"pass": _pass};
+    
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:_id forKey:@"docomo_id_preference"];
+    [userDefaults setObject:_pass forKey:@"docomo_password_preference"];
+    [userDefaults synchronize];
     
     NSNotification *notify = [NSNotification notificationWithName:@"inputDone" object:self userInfo:dic];
     [[NSNotificationCenter defaultCenter] postNotification:notify];
