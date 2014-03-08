@@ -45,6 +45,7 @@
 {
     self.captureCount = 0;
     self.isEnableSend = YES;
+    imageList = [NSMutableArray array];
 
     [super viewDidLoad];
 
@@ -84,6 +85,7 @@
 }
 
 -(IBAction)appearWebView:(id)sender{
+    [imageList removeAllObjects];
     self.isEnableSend = NO;
     WebViewController *modalViewController = [[WebViewController alloc]
                                                 initWithNibName:@"WebViewController" bundle:nil];
@@ -95,7 +97,6 @@
 #pragma mark HTTP
 
 -(void)getImageFromCamera{
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFImageResponseSerializer serializer];
     
@@ -114,27 +115,35 @@
 -(void)sendImageBinary:(int)frameRate{
 
     //NSLog(@"self.userInfo -> %@ ",self.userInfo.allKeys);
-    
-    NSDictionary *params = @{@"docomo_id": [self.userInfo objectForKey:@"id"]
-                             ,@"docomo_pass": [self.userInfo objectForKey:@"pass"]};
+    int ticks_per_second = 100;
+
+    NSDictionary *params = @{
+                             @"docomo_id": [self.userInfo objectForKey:@"id"],
+                             @"docomo_pass": [self.userInfo objectForKey:@"pass"],
+                                   @"delay": [NSNumber numberWithInteger:( ticks_per_second / frameRate )]
+                               };
   
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
-    [manager POST:@"http://iphone3d.now.tl/api/movies" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:@"http://iphone3d.now.tl/api/movies" parameters:params
+        constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
         // send ImageData
-        for (int i =0; i < frameRate; i++) {
-            if (imageData[i] == NULL)return;
+        for (int i =0; i < [imageList count]; i++) {
             NSString *imgName = [NSString stringWithFormat:@"image_%d.jpg",i];
-            
-            //[formData appendPartWithFormData:imageData name:@"image"];
-            [formData appendPartWithFileData:imageData[i] name:@"movie[images_attributes][][pic]" fileName:imgName mimeType:@"image/jpeg"];
+            [formData appendPartWithFileData:[imageList objectAtIndex:i]
+                                        name:@"movie[images_attributes][][pic]"
+                                    fileName:imgName
+                                    mimeType:@"image/jpeg"];
         }
-        
-         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
+        [imageList removeAllObjects];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@  (errorCode:%d)", error, error.code);
+        NSLog(@"Error: %@  (errorCode:%ld)", error, error.code);
     }];
+
 }
 
 #pragma mark Image Processing
@@ -145,6 +154,7 @@
 */
 
 -(void)imageRender:(UIImage*)src{
+    NSLog(@"imageRender(%d)",self.captureCount);
     
     if(src == NULL)[self getImageFromCamera];
     
@@ -178,11 +188,10 @@
     UIImage *output = [UIImage imageWithCGImage:imgRef];
     
     self.imageView.image = output;
-    imageData[self.captureCount] = UIImageJPEGRepresentation(output, 0.01);
-
-    usleep(100000); // 0.1sec
+    [imageList addObject:UIImageJPEGRepresentation(output, 0.01)];
     
-    [self getImageFromCamera];
+    usleep(1000000 / FRAMERATE); // 0.1sec
+    
     [self checkCaptureCount];
 }
 
@@ -201,9 +210,11 @@
 -(void)checkCaptureCount{
     self.captureCount++;
     
-    if (self.captureCount == FRAMERATE) {
+    if (self.captureCount == (FRAMERATE * 3)) {
         if(self.isEnableSend)[self sendImageBinary:self.captureCount];
         self.captureCount=0;
+    } else {
+        [self getImageFromCamera];
     }
 }
 

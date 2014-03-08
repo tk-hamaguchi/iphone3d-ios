@@ -15,7 +15,7 @@
 #define FRAMERATE 10
 
 @interface ViewController : UIViewController{
-    NSData *imageData[FRAMERATE];
+    NSMutableArray *imageList;
 }
 
 @property (nonatomic, retain)UIImage *srcImage;
